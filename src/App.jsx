@@ -12,17 +12,14 @@ function App() {
     setGameHistory((prevGameHistory) => {
       let currentSquare = "X";
 
-      if (prevGameHistory.length > 0) {
-        const latestMove = prevGameHistory[prevGameHistory.length - 1];
-        currentSquare =
-          latestMove.square[0] === rowIndex && latestMove.square[1] === colIndex
-            ? "X"
-            : "O";
+      if (prevGameHistory.length > 0 && prevGameHistory[0].player === "X") {
+        currentSquare = "O";
       }
-      return [
+      const updatedGameHistory = [
+        { square: { rowIndex, colIndex }, player: currentSquare },
         ...prevGameHistory,
-        { square: [rowIndex, colIndex], player: currentSquare },
       ];
+      return updatedGameHistory;
     });
   }
   return (
@@ -37,7 +34,7 @@ function App() {
           gameHistory={gameHistory}
         />
       </div>
-      <Log />
+      <Log gameHistory={gameHistory} />
     </main>
   );
 }

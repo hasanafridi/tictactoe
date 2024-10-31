@@ -8,7 +8,7 @@ export default function GameBoard({ onSelectSquare, gameHistory }) {
   let gameBoard = initialGameBoard;
   for (const move of gameHistory) {
     const { square, player } = move;
-    const [rowIndex, colIndex] = square;
+    const { rowIndex, colIndex } = square;
     gameBoard[rowIndex][colIndex] = player;
   }
 

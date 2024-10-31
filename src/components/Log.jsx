@@ -1,3 +1,11 @@
-export default function Log() {
-  return <ol id="log"></ol>;
+export default function Log({ gameHistory }) {
+  return (
+    <ol id="log">
+      {gameHistory.map((move) => (
+        <li key={`${move.square.rowIndex}-${move.square.colIndex}`}>
+          {move.player} selected {move.square.rowIndex}, {move.square.colIndex}
+        </li>
+      ))}
+    </ol>
+  );
 }
