@@ -1,12 +1,29 @@
 import { useState } from "react";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
+import Log from "./components/Log";
 
 function App() {
+  const [gameHistory, setGameHistory] = useState([]);
   const [activePlayer, setActivePlayer] = useState("X");
 
-  function handleSelectSquare() {
+  function handleSelectSquare(rowIndex, colIndex) {
     setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
+    setGameHistory((prevGameHistory) => {
+      let currentSquare = "X";
+
+      if (prevGameHistory.length > 0) {
+        const latestMove = prevGameHistory[prevGameHistory.length - 1];
+        currentSquare =
+          latestMove.square[0] === rowIndex && latestMove.square[1] === colIndex
+            ? "X"
+            : "O";
+      }
+      return [
+        ...prevGameHistory,
+        { square: [rowIndex, colIndex], player: currentSquare },
+      ];
+    });
   }
   return (
     <main>
@@ -17,10 +34,10 @@ function App() {
         </ol>
         <GameBoard
           onSelectSquare={handleSelectSquare}
-          activePlayerSymbol={activePlayer}
+          gameHistory={gameHistory}
         />
       </div>
-      LOG
+      <Log />
     </main>
   );
 }
